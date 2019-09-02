@@ -16,6 +16,14 @@ module.exports = {
     `gatsby-transformer-sharp`,
     `gatsby-plugin-sharp`,
     {
+      resolve: `gatsby-source-graphql`,
+      options: {
+        typeName: 'GAMES_API',
+        fieldName: 'AllGames',
+        url: 'http://localhost:4000/',
+      },
+    },
+    {
       resolve: `gatsby-plugin-manifest`,
       options: {
         name: `gatsby-starter-default`,

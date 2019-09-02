@@ -1,21 +1,32 @@
 import React from "react"
-import { Link } from "gatsby"
+import { gql } from "apollo-boost"
+import { useQuery } from "@apollo/react-hooks"
 
 import Layout from "../components/layout"
-import Image from "../components/image"
-import SEO from "../components/seo"
 
-const IndexPage = () => (
-  <Layout>
-    <SEO title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-      <Image />
-    </div>
-    <Link to="/page-2/">Go to page 2</Link>
-  </Layout>
-)
+const APOLLO_QUERY = gql`
+  {
+    games {
+      vg_id
+      vg_name
+    }
+  }
+`
+
+const IndexPage = () => {
+  const { loading, error, data } = useQuery(APOLLO_QUERY)
+  if (loading) return <p>Loading...</p>
+  if (error) return <p>Error:</p>
+
+  return (
+    <Layout>
+      <ul>
+        {data.games.map(game => (
+          <li key={game.vg_id}>{game.vg_name}</li>
+        ))}
+      </ul>
+    </Layout>
+  )
+}
 
 export default IndexPage
